@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Contact ProEstate - Get in Touch{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Page Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-blue">Contact ProEstate</h1>
+                <p class="lead">Get in touch with our real estate experts for personalized service</p>
+            </div>
+
+            <div class="row">
+                <!-- Contact Information -->
+                <div class="col-lg-5 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h4 class="card-title text-blue mb-4">Contact Information</h4>
+                            
+                            <div class="contact-info">
+                                <!-- Phone Numbers -->
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-phone fa-2x text-red"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="fw-bold">Phone Numbers</h6>
+                                        <div class="mb-1">
+                                            <a href="tel:+201002532510" class="text-decoration-none text-dark">
+                                                <i class="fas fa-phone-alt me-2 text-blue"></i>+20 100 253 2510
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="tel:+201095146304" class="text-decoration-none text-dark">
+                                                <i class="fas fa-phone-alt me-2 text-blue"></i>+20 109 514 6304
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-envelope fa-2x text-red"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="fw-bold">Email Address</h6>
+                                        <a href="mailto:andewtarek108@gmail.com" class="text-decoration-none text-dark">
+                                            <i class="fas fa-envelope me-2 text-blue"></i>andewtarek108@gmail.com
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-map-marker-alt fa-2x text-red"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="fw-bold">Office Address</h6>
+                                        <p class="mb-0">
+                                            <i class="fas fa-building me-2 text-blue"></i>5th Street beside AUC<br>
+                                            <span class="ms-4">Cairo, Egypt</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Business Hours -->
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-clock fa-2x text-red"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="fw-bold">Business Hours</h6>
+                                        <p class="mb-0">
+                                            <i class="fas fa-calendar me-2 text-blue"></i>Sunday - Thursday: 8:00 AM - 5:00 PM<br>
+                                            <span class="ms-4">Friday - Saturday: Closed</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- Quick Response -->
+                            <div class="alert alert-info border-0">
+                                <h6 class="alert-heading mb-2">
+                                    <i class="fas fa-bolt me-2"></i>Quick Response Guaranteed
+                                </h6>
+                                <p class="mb-0 small">We respond to all inquiries within 24 hours during business days.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="col-lg-7">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <h4 class="card-title text-blue mb-4">Send us a Message</h4>
+                            <form method="POST" action="{{ url_for('contact') }}">
+                                {{ form.hidden_tag() }}
+                                
+                                {% if property_id %}
+                                <input type="hidden" name="property_id" value="{{ property_id }}">
+                                <div class="alert alert-info mb-4">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    You're inquiring about a specific property. Our team will provide detailed information.
+                                </div>
+                                {% endif %}
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            {{ form.name.label(class="form-label fw-bold") }}
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-blue text-white">
+                                                    <i class="fas fa-user"></i>
+                                                </span>
+                                                {{ form.name(class="form-control", placeholder="Your full name") }}
+                                            </div>
+                                            {% for error in form.name.errors %}
+                                                <div class="text-red small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            {{ form.email.label(class="form-label fw-bold") }}
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-blue text-white">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                                {{ form.email(class="form-control", placeholder="your.email@example.com") }}
+                                            </div>
+                                            {% for error in form.email.errors %}
+                                                <div class="text-red small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            {{ form.phone.label(class="form-label fw-bold") }}
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-blue text-white">
+                                                    <i class="fas fa-phone"></i>
+                                                </span>
+                                                {{ form.phone(class="form-control", placeholder="+20 XXX XXX XXXX") }}
+                                            </div>
+                                            {% for error in form.phone.errors %}
+                                                <div class="text-red small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            {{ form.subject.label(class="form-label fw-bold") }}
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-blue text-white">
+                                                    <i class="fas fa-tag"></i>
+                                                </span>
+                                                {{ form.subject(class="form-control", placeholder="Message subject") }}
+                                            </div>
+                                            {% for error in form.subject.errors %}
+                                                <div class="text-red small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    {{ form.message.label(class="form-label fw-bold") }}
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-blue text-white align-items-start pt-3">
+                                            <i class="fas fa-comment"></i>
+                                        </span>
+                                        {{ form.message(class="form-control", rows="6", placeholder="Tell us about your requirements, preferred location, budget, and any specific needs...") }}
+                                    </div>
+                                    {% for error in form.message.errors %}
+                                        <div class="text-red small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                    <div class="form-text">
+                                        Please provide as much detail as possible to help us serve you better.
+                                    </div>
+                                </div>
+
+                                <div class="d-grid">
+                                    {{ form.submit(class="btn btn-primary btn-lg") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Additional Info -->
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title text-blue mb-3">
+                                <i class="fas fa-star me-2"></i>Why Contact ProEstate?
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>Free Property Consultation
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>Market Insights & Analysis
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-check text-success me-2"></i>Legal Documentation Support
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>Flexible Payment Plans
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>Property Valuation Services
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-check text-success me-2"></i>After-Sales Support
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

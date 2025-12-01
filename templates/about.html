@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}About ProEstate - Your Trusted Real Estate Partner{% endblock %}
+
+{% block content %}
+<!-- About Hero -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4" style="color: white;">About ProEstate</h1>
+                <p class="lead mb-4" style="color: white;">Egypt's Premier Real Estate Solution Provider with over a decade of excellence in property services and investment consulting.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('properties') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-building me-2"></i>View Properties
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Get Consultation
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="ProEstate Team" 
+                         class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     alt="Our Story" 
+                     class="img-fluid rounded shadow">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="mb-4">Our Story</h2>
+                <p class="fs-5 mb-4">Founded in 2014, ProEstate has been at the forefront of Egypt's real estate revolution, helping thousands of families and investors find their perfect properties while maximizing investment returns.</p>
+                <p class="mb-4">We started with a simple vision: to make property acquisition seamless, transparent, and accessible to everyone. Today, we're proud to be one of Egypt's most trusted real estate agencies.</p>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="text-red fw-bold fs-2">10+</div>
+                        <div class="text-muted">Years Experience</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-blue fw-bold fs-2">1000+</div>
+                        <div class="text-muted">Happy Clients</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-red fw-bold fs-2">500+</div>
+                        <div class="text-muted">Properties Sold</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-5">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-bullseye fa-3x text-red mb-3"></i>
+                        <h4 class="card-title">Our Mission</h4>
+                        <p class="card-text">To revolutionize the real estate experience in Egypt by providing transparent, efficient, and personalized property solutions that empower our clients to make informed decisions and achieve their property goals.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-5">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-eye fa-3x text-blue mb-3"></i>
+                        <h4 class="card-title">Our Vision</h4>
+                        <p class="card-text">To be Egypt's most trusted and innovative real estate partner, setting new standards in customer service, property quality, and investment opportunities while contributing to the nation's urban development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section-padding">
+    <div class="container">
+        <div class="section-title">
+            <h2>Why Choose ProEstate?</h2>
+            <p class="lead">Discover what makes us the preferred choice for property seekers and investors</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h5>Verified Properties</h5>
+                        <p class="text-muted">Every listing undergoes strict legal verification and quality checks to ensure complete transparency and security.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-percentage fa-3x text-blue mb-3"></i>
+                        <h5>Flexible Payment Plans</h5>
+                        <p class="text-muted">Customized installment plans with down payments starting from 10% and flexible terms up to 10 years.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-shield-alt fa-3x text-red mb-3"></i>
+                        <h5>Legal Expertise</h5>
+                        <p class="text-muted">Complete legal support including contract review, documentation, and property registration assistance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section-padding bg-blue text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="mb-4" style="color: white;">Ready to Start Your Property Journey?</h2>
+                <p class="lead mb-4" style="color: white;">Join the thousands of satisfied clients who trust ProEstate for their real estate needs</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Contact Us Today
+                    </a>
+                    <a href="{{ url_for('properties') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-building me-2"></i>Browse Properties
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

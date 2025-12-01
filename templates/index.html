@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Premium Real Estate Solutions - ProEstate{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4" style="color: white;">Find Your Dream Property in Egypt</h1>
+                <p class="lead mb-4" style="color: white;">Discover premium real estate opportunities with flexible payment plans and expert guidance from Egypt's most trusted property agency.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('properties') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search me-2"></i>Browse Properties
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Contact Us
+                    </a>
+                </div>
+                <div class="mt-4">
+                    <small style="color: white;">
+                        <i class="fas fa-star me-1"></i>Trusted by 1,000+ clients
+                        <i class="fas fa-star ms-3 me-1"></i>500+ properties available
+                        <i class="fas fa-star ms-3 me-1"></i>10+ years experience
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Modern Egyptian Architecture" 
+                         class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="counter display-4 fw-bold text-red" data-target="500">0</div>
+                <p class="fs-5 text-muted">Properties Available</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="counter display-4 fw-bold text-blue" data-target="250">0</div>
+                <p class="fs-5 text-muted">Happy Clients</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="counter display-4 fw-bold text-red" data-target="50">0</div>
+                <p class="fs-5 text-muted">Prime Locations</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="counter display-4 fw-bold text-blue" data-target="10">0</div>
+                <p class="fs-5 text-muted">Years Experience</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties -->
+<section class="section-padding">
+    <div class="container">
+        <div class="section-title">
+            <h2>Featured Properties</h2>
+            <p class="lead">Handpicked selections of premium properties across Egypt</p>
+        </div>
+
+        <div class="row">
+            <!-- Featured Property 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card property-card h-100">
+                    <div class="img-hover-zoom">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                             class="card-img-top"
+                             alt="Luxury Apartment"
+                             style="height: 250px; object-fit: cover;">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Luxury Apartment in New Cairo</h5>
+                        <p class="card-text text-muted mb-2">
+                            <i class="fas fa-map-marker-alt text-red me-1"></i>
+                            New Cairo, Cairo
+                        </p>
+
+                        <div class="property-meta mb-3">
+                            <span class="badge badge-red">Apartment</span>
+                            <span class="badge badge-blue">180 sqm</span>
+                            <span class="badge bg-success">3 Bedrooms</span>
+                        </div>
+
+                        <p class="card-text text-muted flex-grow-1">This stunning luxury apartment offers modern amenities, spacious living areas, and breathtaking city views. Perfect for families seeking comfort and style in a prime location.</p>
+
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-red fs-5">3,200,000 EGP</strong>
+                                <span class="badge badge-success">Available</span>
+                            </div>
+                            <div class="d-grid mt-3">
+                                <a href="{{ url_for('properties') }}"
+                                   class="btn btn-blue">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Property 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card property-card h-100">
+                    <div class="img-hover-zoom">
+                        <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                             class="card-img-top"
+                             alt="Modern Villa"
+                             style="height: 250px; object-fit: cover;">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Modern Villa in Sheikh Zayed</h5>
+                        <p class="card-text text-muted mb-2">
+                            <i class="fas fa-map-marker-alt text-red me-1"></i>
+                            Sheikh Zayed, Giza
+                        </p>
+
+                        <div class="property-meta mb-3">
+                            <span class="badge badge-red">Villa</span>
+                            <span class="badge badge-blue">320 sqm</span>
+                            <span class="badge bg-success">4 Bedrooms</span>
+                        </div>
+
+                        <p class="card-text text-muted flex-grow-1">Experience luxury living in this contemporary villa featuring elegant design, private garden, and proximity to major highways. Ideal for those who value privacy and convenience.</p>
+
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-red fs-5">25,000 EGP/month</strong>
+                                <span class="badge badge-success">Available</span>
+                            </div>
+                            <div class="d-grid mt-3">
+                                <a href="{{ url_for('properties') }}"
+                                   class="btn btn-blue">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Property 3 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card property-card h-100">
+                    <div class="img-hover-zoom">
+                        <img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                             class="card-img-top"
+                             alt="Penthouse"
+                             style="height: 250px; object-fit: cover;">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Penthouse with Nile View</h5>
+                        <p class="card-text text-muted mb-2">
+                            <i class="fas fa-map-marker-alt text-red me-1"></i>
+                            Zamalek, Cairo
+                        </p>
+
+                        <div class="property-meta mb-3">
+                            <span class="badge badge-red">Penthouse</span>
+                            <span class="badge badge-blue">240 sqm</span>
+                            <span class="badge bg-success">3 Bedrooms</span>
+                        </div>
+
+                        <p class="card-text text-muted flex-grow-1">Indulge in panoramic Nile River views from this exclusive penthouse. Featuring premium finishes, rooftop terrace, and access to cultural landmarks in historic Zamalek.</p>
+
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-red fs-5">8,500,000 EGP</strong>
+                                <span class="badge badge-success">Available</span>
+                            </div>
+                            <div class="d-grid mt-3">
+                                <a href="{{ url_for('properties') }}"
+                                   class="btn btn-blue">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('properties') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-building me-2"></i>View All Properties
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Services</h2>
+            <p class="lead">Comprehensive real estate solutions tailored to your needs</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <i class="fas fa-home fa-3x text-red mb-3"></i>
+                        <h4 class="card-title">Property Sales</h4>
+                        <p class="card-text">Find your dream home from our extensive collection of apartments, villas, and townhouses across prime locations in Egypt.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <i class="fas fa-key fa-3x text-blue mb-3"></i>
+                        <h4 class="card-title">Installment Plans</h4>
+                        <p class="card-text">Flexible payment options with down payments starting from 10% and installment plans up to 10 years.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <i class="fas fa-handshake fa-3x text-red mb-3"></i>
+                        <h4 class="card-title">Investment Consulting</h4>
+                        <p class="card-text">Expert advice on real estate investments, market trends, and property valuation to maximize your returns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="mb-4">Why Choose ProEstate?</h2>
+                <div class="feature-list">
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-check-circle text-success me-3 mt-1 fs-5"></i>
+                        <div>
+                            <h5>Verified Properties</h5>
+                            <p class="text-muted mb-0">Every property undergoes strict verification ensuring legal compliance and accurate documentation</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-check-circle text-success me-3 mt-1 fs-5"></i>
+                        <div>
+                            <h5>Best Price Guarantee</h5>
+                            <p class="text-muted mb-0">We negotiate the best deals and offer competitive pricing with flexible payment plans</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="fas fa-check-circle text-success me-3 mt-1 fs-5"></i>
+                        <div>
+                            <h5>24/7 Support</h5>
+                            <p class="text-muted mb-0">Dedicated customer service team available around the clock for all your needs</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-3 mt-1 fs-5"></i>
+                        <div>
+                            <h5>Legal Assistance</h5>
+                            <p class="text-muted mb-0">Complete paperwork and legal support throughout your property acquisition journey</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Why Choose ProEstate" 
+                         class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section-padding bg-blue text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="mb-4" style="color: white;">Ready to Find Your Dream Property?</h2>
+                <p class="lead mb-4" style="color: white;">Join thousands of satisfied clients who found their perfect home through ProEstate</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ url_for('properties') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-search me-2"></i>Browse Properties
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Get Free Consultation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Counter animation
+    const counters = document.querySelectorAll('.counter');
+    counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                counter.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                counter.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 16);
+    });
+});
+</script>
+{% endblock %}

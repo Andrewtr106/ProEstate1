@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}{{ property.title }} - ProEstate{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('properties') }}">Properties</a></li>
+            <li class="breadcrumb-item active">{{ property.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Images and Main Info -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    {% if property.image %}
+                    <img src="{{ property.image }}" 
+                         class="img-fluid rounded w-100 mb-4" 
+                         alt="{{ property.title }}"
+                         style="max-height: 500px; object-fit: cover;">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="img-fluid rounded w-100 mb-4" 
+                         alt="Property Image"
+                         style="max-height: 500px; object-fit: cover;">
+                    {% endif %}
+
+                    <h1 class="h2 mb-3">{{ property.title }}</h1>
+                    <p class="text-muted fs-5 mb-4">
+                        <i class="fas fa-map-marker-alt text-red me-2"></i>
+                        {{ property.location }}
+                    </p>
+
+                    <div class="property-meta mb-4">
+                        <span class="badge badge-red me-2 fs-6">{{ property.property_type }}</span>
+                        <span class="badge badge-blue me-2 fs-6">{{ property.area }} sqm</span>
+                        {% if property.bedrooms %}
+                        <span class="badge bg-info me-2 fs-6">{{ property.bedrooms }} Bedrooms</span>
+                        {% endif %}
+                        {% if property.bathrooms %}
+                        <span class="badge bg-warning me-2 fs-6">{{ property.bathrooms }} Bathrooms</span>
+                        {% endif %}
+                        <span class="badge bg-success me-2 fs-6">Available</span>
+                    </div>
+
+                    <h3 class="text-primary mb-4">{{ "{:,.0f}".format(property.price) }} EGP</h3>
+
+                    <hr class="my-4">
+
+                    <h4 class="mb-3">Property Description</h4>
+                    <p class="lead fs-6 lh-lg">{{ property.description }}</p>
+                </div>
+            </div>
+
+            <!-- Payment Plan -->
+            {% if property.down_payment %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="mb-4">Payment Plan</h4>
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3">
+                                <h5 class="text-blue">Down Payment</h5>
+                                <h4 class="text-red">{{ "{:,.0f}".format(property.down_payment) }} EGP</h4>
+                                <small class="text-muted">Due upon signing</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3">
+                                <h5 class="text-blue">Monthly Installment</h5>
+                                <h4 class="text-red">{{ "{:,.0f}".format(property.monthly_installment) }} EGP</h4>
+                                <small class="text-muted">For {{ property.installment_years }} years</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3">
+                                <h5 class="text-blue">Total Price</h5>
+                                <h4 class="text-red">{{ "{:,.0f}".format(property.price) }} EGP</h4>
+                                <small class="text-muted">Including all fees</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Features -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="mb-4">Property Features</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Property Type:</strong> {{ property.property_type }}
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Area:</strong> {{ property.area }} square meters
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Location:</strong> {{ property.location }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                {% if property.bedrooms %}
+                                <li class="mb-3">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Bedrooms:</strong> {{ property.bedrooms }}
+                                </li>
+                                {% endif %}
+                                {% if property.bathrooms %}
+                                <li class="mb-3">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Bathrooms:</strong> {{ property.bathrooms }}
+                                </li>
+                                {% endif %}
+                                <li class="mb-3">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Status:</strong> <span class="badge bg-success">Available</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Favorite Button -->
+            {% if session.user_id %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <button id="favorite-btn" class="btn btn-lg w-100 mb-3" onclick="toggleFavorite({{ property.id }})">
+                        <i id="favorite-icon" class="fas fa-heart me-2"></i>
+                        <span id="favorite-text">Add to Favorites</span>
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Contact Information -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-4">Contact for Details</h5>
+                    <div class="contact-info text-start mb-4">
+                        <p class="mb-3">
+                            <i class="fas fa-phone text-red me-2"></i>
+                            <strong>+20 100 253 2510</strong>
+                        </p>
+                        <p class="mb-3">
+                            <i class="fas fa-phone text-red me-2"></i>
+                            <strong>+20 109 514 6304</strong>
+                        </p>
+                        <p class="mb-3">
+                            <i class="fas fa-envelope text-red me-2"></i>
+                            andewtarek108@gmail.com
+                        </p>
+                        <p class="mb-0">
+                            <i class="fas fa-clock text-red me-2"></i>
+                            Sun - Thu: 8 AM - 5 PM
+                        </p>
+                    </div>
+                    <a href="{{ url_for('contact') }}?property={{ property.id }}"
+                       class="btn btn-primary w-100 btn-lg">
+                        <i class="fas fa-paper-plane me-2"></i> Send Inquiry
+                    </a>
+                </div>
+            </div>
+
+            <!-- Similar Properties -->
+            {% if similar_properties %}
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Similar Properties</h5>
+                    <div class="similar-properties">
+                        {% for similar in similar_properties %}
+                        <a href="{{ url_for('property_detail', property_id=similar.id) }}" 
+                           class="d-block p-3 border rounded mb-3 text-decoration-none text-dark">
+                            <div class="d-flex align-items-center">
+                                {% if similar.image %}
+                                <img src="{{ similar.image }}" 
+                                     alt="{{ similar.title }}" 
+                                     width="60" 
+                                     height="60" 
+                                     class="rounded me-3 object-fit-cover">
+                                {% else %}
+                                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Similar Property" 
+                                     width="60" 
+                                     height="60" 
+                                     class="rounded me-3 object-fit-cover">
+                                {% endif %}
+                                <div>
+                                    <h6 class="mb-1">{{ similar.title[:30] }}...</h6>
+                                    <small class="text-muted">{{ similar.location[:25] }}...</small>
+                                    <br>
+                                    <small class="text-red">{{ "{:,.0f}".format(similar.price) }} EGP</small>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if property is already favorited
+    checkFavoriteStatus({{ property.id }});
+});
+
+function checkFavoriteStatus(propertyId) {
+    fetch(`/check-favorite/${propertyId}`)
+    .then(response => response.json())
+    .then(data => {
+        const btn = document.getElementById('favorite-btn');
+        const icon = document.getElementById('favorite-icon');
+        const text = document.getElementById('favorite-text');
+
+        if (data.is_favorited) {
+            btn.className = 'btn btn-danger btn-lg w-100 mb-3';
+            icon.className = 'fas fa-heart-broken me-2';
+            text.textContent = 'Remove from Favorites';
+        } else {
+            btn.className = 'btn btn-outline-danger btn-lg w-100 mb-3';
+            icon.className = 'fas fa-heart me-2';
+            text.textContent = 'Add to Favorites';
+        }
+    })
+    .catch(error => {
+        console.error('Error checking favorite status:', error);
+    });
+}
+
+function toggleFavorite(propertyId) {
+    fetch(`/toggle-favorite/${propertyId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            checkFavoriteStatus(propertyId);
+            // Show success message
+            showMessage(data.message, 'success');
+        } else {
+            showMessage(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error toggling favorite:', error);
+        showMessage('An error occurred. Please try again.', 'error');
+    });
+}
+
+function showMessage(message, type) {
+    // Create alert element
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    alertDiv.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.body.appendChild(alertDiv);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Property - ProEstate{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">
+                <i class="fas fa-edit me-2"></i>Edit Property
+            </h2>
+            <p class="text-muted mb-0">Update property information</p>
+        </div>
+        <a href="{{ url_for('admin_properties') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Properties
+        </a>
+    </div>
+
+    <!-- Property Form -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-home me-2"></i>Property Details
+            </h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                <!-- Basic Information -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                            {{ form.title(class="form-control", placeholder="Enter property title") }}
+                        </div>
+                        {% if form.title.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.title.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                            {{ form.property_type(class="form-control") }}
+                        </div>
+                        {% if form.property_type.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.property_type.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Price and Area -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                            {{ form.price(class="form-control", placeholder="Enter price") }}
+                            <span class="input-group-text">EGP</span>
+                        </div>
+                        {% if form.price.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.price.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-ruler-combined"></i></span>
+                            {{ form.area(class="form-control", placeholder="Enter area") }}
+                            <span class="input-group-text">sqm</span>
+                        </div>
+                        {% if form.area.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.area.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            {{ form.location(class="form-control", placeholder="Enter property location") }}
+                        </div>
+                        {% if form.location.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.location.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="input-group align-items-start">
+                            <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                            {{ form.description(class="form-control", rows=6, placeholder="Describe the property features, amenities, and any additional information...") }}
+                        </div>
+                        {% if form.description.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.description.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Bedrooms and Bathrooms -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-bed"></i></span>
+                            {{ form.bedrooms(class="form-control", placeholder="Number of bedrooms") }}
+                        </div>
+                        {% if form.bedrooms.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.bedrooms.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-bath"></i></span>
+                            {{ form.bathrooms(class="form-control", placeholder="Number of bathrooms") }}
+                        </div>
+                        {% if form.bathrooms.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.bathrooms.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                            {{ form.down_payment(class="form-control", placeholder="Down payment") }}
+                            <span class="input-group-text">EGP</span>
+                        </div>
+                        {% if form.down_payment.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.down_payment.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                            {{ form.monthly_installment(class="form-control", placeholder="Monthly payment") }}
+                            <span class="input-group-text">EGP</span>
+                        </div>
+                        {% if form.monthly_installment.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.monthly_installment.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                            {{ form.installment_years(class="form-control", placeholder="Years") }}
+                        </div>
+                        {% if form.installment_years.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.installment_years.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label">
+                            <i class="fas fa-image me-2"></i>Property Image
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-upload"></i></span>
+                            {{ form.image(class="form-control") }}
+                        </div>
+                        <div class="form-text">
+                            Leave empty to keep current image. Supported formats: JPG, PNG, GIF
+                        </div>
+                        {% if property.image %}
+                        <div class="mt-2">
+                            <small class="text-muted">Current image:</small><br>
+                            <img src="{{ url_for('static', filename='uploads/' + property.image) }}"
+                                 alt="Current property image"
+                                 class="img-thumbnail mt-1"
+                                 style="max-width: 200px; max-height: 150px;">
+                        </div>
+                        {% endif %}
+                        {% if form.image.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.image.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Update Property
+                            </button>
+                            <a href="{{ url_for('admin_properties') }}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation enhancement
+    const form = document.querySelector('form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', function(e) {
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Updating Property...';
+        submitBtn.disabled = true;
+    });
+
+    // Image preview
+    const imageInput = document.querySelector('input[type="file"]');
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Could add preview functionality here
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
