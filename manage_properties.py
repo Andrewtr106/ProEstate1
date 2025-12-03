@@ -5,27 +5,22 @@ Handles property deletion and addition with sample data
 """
 
 import os
-from flask import Flask
-from models import db, Property
-from config import Config
-from add_more_properties import add_more_properties
-
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
-    db.init_app(app)
-    return app
+from models import Property
+from app import create_app
 
 def delete_all_properties():
     """Delete all existing properties"""
     try:
-        deleted_count = Property.query.delete()
-        db.session.commit()
+        # Get all properties and delete them
+        properties = Property.get_all()
+        deleted_count = 0
+        for prop in properties:
+            prop.delete()
+            deleted_count += 1
         print(f"Deleted {deleted_count} existing properties")
         return True
     except Exception as e:
         print(f"Error deleting properties: {e}")
-        db.session.rollback()
         return False
 
 def add_sample_properties():
@@ -498,8 +493,8 @@ def add_sample_properties():
     added_count = 0
     for prop_data in properties_data:
         try:
-            # Create property
-            property = Property(
+            # Create property using Property.create method
+            Property.create(
                 title=prop_data['title'],
                 description=prop_data['description'],
                 price=prop_data['price'],
@@ -511,18 +506,13 @@ def add_sample_properties():
                 down_payment=prop_data['down_payment'],
                 monthly_installment=prop_data['monthly_installment'],
                 installment_years=prop_data['installment_years'],
-                image=prop_data['image'],
-                status='available'
+                image=prop_data['image']
             )
-
-            db.session.add(property)
-            db.session.commit()
             added_count += 1
             print(f"Added property: {prop_data['title']}")
 
         except Exception as e:
             print(f"Error adding property {prop_data['title']}: {e}")
-            db.session.rollback()
             continue
 
     print(f"Successfully added {added_count} new properties")
@@ -677,13 +667,13 @@ def add_additional_properties():
     for prop_data in properties_data:
         try:
             # Check if property already exists
-            existing_property = Property.query.filter_by(title=prop_data['title']).first()
+            existing_property = Property.get_by_title(prop_data['title'])
             if existing_property:
                 print(f"Property '{prop_data['title']}' already exists, skipping...")
                 continue
 
-            # Create property
-            property = Property(
+            # Create property using Property.create method
+            Property.create(
                 title=prop_data['title'],
                 description=prop_data['description'],
                 price=prop_data['price'],
@@ -695,18 +685,13 @@ def add_additional_properties():
                 down_payment=prop_data['down_payment'],
                 monthly_installment=prop_data['monthly_installment'],
                 installment_years=prop_data['installment_years'],
-                image=prop_data['image'],
-                status='available'
+                image=prop_data['image']
             )
-
-            db.session.add(property)
-            db.session.commit()
             added_count += 1
             print(f"Added property: {prop_data['title']}")
 
         except Exception as e:
             print(f"Error adding property {prop_data['title']}: {e}")
-            db.session.rollback()
             continue
 
     print(f"Successfully added {added_count} new properties")
@@ -718,7 +703,7 @@ def main():
 
     with app.app_context():
         print("✅ Adding 25 more properties to existing database...")
-        add_success = add_more_properties()
+        add_success = add_additional_properties()
 
         if add_success:
             print("🎉 Property addition completed successfully!")

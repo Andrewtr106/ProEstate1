@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import os
 from config import Config
-from models import db, Property, ContactMessage, User, Favorite
+from models import Property, ContactMessage, User, Favorite
 from forms import PropertyForm, ContactForm, LoginForm, RegisterForm, ProfileForm, UserPropertyForm
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -12,9 +12,6 @@ def create_app():
 
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
-
-    # Initialize database
-    db.init_app(app)
 
     # Create necessary folders
     with app.app_context():
