@@ -8,6 +8,7 @@ def create_tables():
 
     # Drop tables if they exist (in reverse order due to foreign keys)
     drop_queries = [
+        "IF OBJECT_ID('chat_history', 'U') IS NOT NULL DROP TABLE chat_history;",
         "IF OBJECT_ID('contact_messages', 'U') IS NOT NULL DROP TABLE contact_messages;",
         "IF OBJECT_ID('favorites', 'U') IS NOT NULL DROP TABLE favorites;",
         "IF OBJECT_ID('properties', 'U') IS NOT NULL DROP TABLE properties;",
@@ -73,6 +74,16 @@ def create_tables():
             created_at DATETIME2 DEFAULT GETDATE(),
             is_read BIT DEFAULT 0,
             FOREIGN KEY (property_id) REFERENCES properties(id)
+        );
+        """,
+        """
+        CREATE TABLE chat_history (
+            id INT IDENTITY(1,1) PRIMARY KEY,
+            user_id INT,
+            timestamp DATETIME2 DEFAULT GETDATE(),
+            role NVARCHAR(10) NOT NULL,  -- 'user' or 'assistant'
+            message NVARCHAR(MAX) NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
         );
         """
     ]

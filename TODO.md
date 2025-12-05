@@ -1,14 +1,31 @@
-# TODO: Flask-Login Migration and Testing
+# Chatbot Implementation TODO
 
-## Completed Tasks
-- [x] Migrate from session-based authentication to Flask-Login
-- [x] Update all routes in app.py to use current_user instead of session
-- [x] Update templates/base.html to use current_user.is_authenticated and current_user attributes
-- [x] Add @login_required decorators to protected routes
-- [x] Update admin routes to check current_user.is_admin
+## Database Schema
+- [x] Create ChatHistory table in SQL Server
+- [x] Add ChatHistory model to models.py
+- [x] Update init_db.py to create ChatHistory table
 
-## Followup Steps
-- [x] Run the Flask app to test if the site loads correctly
-- [x] Verify all pages render properly with the new authentication system
-- [x] Test login, logout, registration, and protected routes
-- [x] Test admin functionality with admin user
+## Backend Integration
+- [x] Integrate OpenAI in app.py securely
+- [x] Create /chat_api route with history loading and OpenAI calls
+- [x] Implement message storage (user and assistant)
+- [x] Handle authenticated and anonymous users
+
+## Frontend Widget
+- [x] Modify base.html to include chatbot widget
+- [x] Create chatbot.js for frontend logic
+- [x] Implement floating chat icon and expandable window
+- [x] Add AJAX message handling and loading indicators
+
+## Features
+- [x] Connect chatbot with user accounts/sessions
+- [x] Enable navigation actions via bot responses
+- [x] Implement session handling for anonymous users
+
+## Testing
+- [x] Test API endpoints
+- [x] Test UI widget across all pages
+- [x] Test database saving
+- [x] Test anonymous and logged-in user flows
+- [x] Test OpenAI responses and navigation
+- [x] Ensure no regressions in existing functionality

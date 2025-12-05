@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 import os
+import openai
 from config import Config
-from models import Property, ContactMessage, User, Favorite
+from models import Property, ContactMessage, User, Favorite, ChatHistory
 from forms import PropertyForm, ContactForm, LoginForm, RegisterForm, ProfileForm, UserPropertyForm
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from db_utils import get_db_connection
 
 def create_app():
     app = Flask(__name__)
@@ -13,6 +13,9 @@ def create_app():
 
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
+
+    # Initialize OpenAI
+    openai.api_key = app.config.get('OPENAI_API_KEY')
 
     # Create necessary folders
     with app.app_context():
@@ -351,18 +354,24 @@ def admin_properties():
         return redirect(url_for('index'))
 
     try:
+        property_type = request.args.get('type', '')
+        location = request.args.get('location', '')
         page = request.args.get('page', 1, type=int)
-        per_page = 10  # Show 10 properties per page for admin
+        per_page = 5  # Match regular properties page pagination
 
-        # Get pagination object
-        properties_pagination = Property.get_all_paginated(
+        # Get pagination object with filters (same as regular properties page)
+        properties_pagination = Property.get_available(
+            property_type=property_type,
+            location=location,
             page=page,
             per_page=per_page
         )
 
         return render_template('admin/properties.html',
                              properties=properties_pagination.items,
-                             pagination=properties_pagination)
+                             pagination=properties_pagination,
+                             search_type=property_type,
+                             search_location=location)
     except Exception as e:
         print(f"Error in admin_properties: {str(e)}")
         flash('An error occurred while loading properties.', 'error')
@@ -437,7 +446,88 @@ def delete_property(property_id):
 
     return redirect(url_for('admin_properties'))
 
+# Chat API route
+@app.route('/chat_api', methods=['POST'])
+def chat_api():
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '').strip()
 
+        if not user_message:
+            return jsonify({'error': 'Message is required'}), 400
+
+        # Determine user ID (authenticated or anonymous)
+        user_id = current_user.id if current_user.is_authenticated else None
+
+        # For anonymous users, use session ID as identifier
+        if not user_id:
+            session_id = session.get('chat_session_id')
+            if not session_id:
+                import uuid
+                session_id = str(uuid.uuid4())
+                session['chat_session_id'] = session_id
+            user_id = session_id
+
+        # Save user message to database
+        ChatHistory.create(
+            user_id=user_id,
+            role='user',
+            message=user_message
+        )
+
+        # Load chat history for context (last 10 messages)
+        chat_history = ChatHistory.get_by_user_id(user_id, limit=10)
+
+        # Prepare messages for OpenAI
+        messages = [
+            {
+                "role": "system",
+                "content": """You are a helpful real estate assistant for ProEstate, a property marketplace in Egypt.
+                Help users find properties, answer questions about real estate, and provide information about available listings.
+                You can help with:
+                - Finding properties by type, location, price range
+                - Explaining mortgage and financing options
+                - Providing property information
+                - Answering general real estate questions
+                - Guiding users through the website features
+
+                Be friendly, professional, and helpful. If users ask about specific properties or want to navigate,
+                provide clear guidance on how to use the website features."""
+            }
+        ]
+
+        # Add chat history to messages
+        for chat in chat_history:
+            messages.append({
+                "role": chat.role,
+                "content": chat.message
+            })
+
+        # Call OpenAI API
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            max_tokens=500,
+            temperature=0.7
+        )
+
+        bot_message = response.choices[0].message.content.strip()
+
+        # Save bot response to database
+        ChatHistory.create(
+            user_id=user_id,
+            role='assistant',
+            message=bot_message
+        )
+
+        return jsonify({
+            'response': bot_message,
+            'success': True
+        })
+
+    except Exception as e:
+        print(f"Error in chat_api: {str(e)}")
+        return jsonify({'error': 'An error occurred while processing your message'}), 500
 
 # Error handlers
 @app.errorhandler(404)
@@ -446,12 +536,7 @@ def not_found_error(error):
 
 @app.errorhandler(500)
 def internal_error(error):
-    db.session.rollback()
     return render_template('500.html'), 500
-
-# Create database tables
-with app.app_context():
-    db.create_all()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
