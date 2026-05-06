@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Mortgage Calculator - {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="section-padding stats-section" style="padding-top:7rem;">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <div class="glass-effect p-4 rounded-4">
+          <h2 class="fw-bold mb-3" style="color: #fff;">Mortgage / Installment Calculator</h2>
+          <p class="text-white-50 mb-4">Calculate monthly payment and total cost instantly.</p>
+
+          <form id="mortgageForm">
+            <div class="mb-3">
+              <label class="form-label text-white">Property Price (EGP)</label>
+              <input type="number" step="0.01" class="form-control" name="price" id="price" value="5000000" min="0" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Down Payment (%)</label>
+              <input type="number" step="1" class="form-control" name="down_payment_pct" id="down_payment_pct" value="20" min="0" max="99" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Interest Rate Annual (%)</label>
+              <input type="number" step="0.01" class="form-control" name="interest_rate" id="interest_rate" value="12" min="0" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label text-white">Years</label>
+              <input type="number" step="1" class="form-control" name="years" id="years" value="20" min="1" required>
+            </div>
+
+            <button type="submit" class="btn btn-3d btn-gold btn-lg w-100">
+              <i class="fas fa-calculator me-2"></i> Calculate
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="glass-effect p-4 rounded-4" style="min-height: 380px;">
+          <h3 class="fw-bold mb-3" style="color: #fff;">Results</h3>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat-card" data-aos="fade-up">
+                <span class="stat-number" id="monthly_payment" data-count="0">0</span>+
+                <div class="stat-label">Monthly Payment (EGP)</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="stat-number" id="down_payment" data-count="0">0</span>+
+                <div class="stat-label">Down Payment (EGP)</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="stat-card" data-aos="fade-up" data-aos-delay="150">
+                <span class="stat-number" id="loan_amount" data-count="0">0</span>+
+                <div class="stat-label">Loan Amount (EGP)</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <span class="stat-number" id="total_interest" data-count="0">0</span>+
+                <div class="stat-label">Total Interest (EGP)</div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="stat-card" data-aos="fade-up" data-aos-delay="250">
+                <span class="stat-number" id="total_payment" data-count="0">0</span>+
+                <div class="stat-label">Total Payment (EGP)</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="mortgageError" class="alert alert-danger mt-3 d-none"></div>
+          <div class="text-white-50 mt-3">
+            Tip: Change down payment & interest rate to see the impact instantly.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function(){
+  const form = document.getElementById('mortgageForm');
+  const errorEl = document.getElementById('mortgageError');
+
+  const setNumber = (el, value) => {
+    if (!el) return;
+    const num = Number(value || 0);
+    el.dataset.count = String(num);
+    el.textContent = '0';
+
+    if (typeof CountUp !== 'undefined') {
+      const cu = new CountUp.CountUp(el, num, { duration: 1.8, useEasing: true, useGrouping: true });
+      cu.start();
+    } else {
+      el.textContent = num.toLocaleString();
+    }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!form) return;
+
+    if (errorEl) {
+      errorEl.classList.add('d-none');
+      errorEl.textContent = '';
+    }
+
+    const payload = {
+      price: form.price.value,
+      down_payment_pct: form.down_payment_pct.value,
+      interest_rate: form.interest_rate.value,
+      years: form.years.value
+    };
+
+    try{
+      const res = await fetch('/api/calculate-mortgage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (!data || !data.success) {
+        const msg = (data && data.error) ? data.error : 'Calculation failed';
+        if (errorEl) {
+          errorEl.classList.remove('d-none');
+          errorEl.textContent = msg;
+        }
+        return;
+      }
+
+      setNumber(document.getElementById('monthly_payment'), data.monthly_payment);
+      setNumber(document.getElementById('down_payment'), data.down_payment);
+      setNumber(document.getElementById('loan_amount'), data.loan_amount);
+      setNumber(document.getElementById('total_interest'), data.total_interest);
+      setNumber(document.getElementById('total_payment'), data.total_payment);
+
+      if (typeof gsap !== 'undefined') {
+        gsap.fromTo('.stat-card', { y: 10, opacity: 0.5 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power3.out' });
+      }
+    }catch(err){
+      if (errorEl) {
+        errorEl.classList.remove('d-none');
+        errorEl.textContent = 'Connection error. Please try again.';
+      }
+    }
+  };
+
+  if (form) form.addEventListener('submit', onSubmit);
+})();
+</script>
+{% endblock %}
