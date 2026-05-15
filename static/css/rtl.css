@@ -1,0 +1,54 @@
+/* RTL/LTR overrides + Arabic-friendly typography
+   Applied via: <html dir="rtl"> and/or [dir="rtl"] selectors
+*/
+
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] body {
+  text-align: right;
+}
+
+/* Navbar alignment: reverse row flow */
+[dir="rtl"] .navbar-nav {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .me-auto {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .ms-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .text-start {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-end {
+  text-align: left !important;
+}
+
+[dir="rtl"] .float-start {
+  float: right !important;
+}
+
+[dir="rtl"] .float-end {
+  float: left !important;
+}
+
+/* Arabic font fallback */
+[lang="ar"], [dir="rtl"] {
+  font-family: "Cairo", "Tajawal", "Noto Sans Arabic", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Dropdown caret alignment tweak */
+[dir="rtl"] .dropdown-toggle::after {
+  margin-right: .255em;
+  margin-left: 0;
+}
